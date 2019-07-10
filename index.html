@@ -3,28 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>Kanban board</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <div id="board" class="board">
-      <h1>Kanban board</h1>
-      <button class="create-column">Add a column</button>
-
-      <div class="column-container"></div>
+    <div id="main">
+      <h1>Kanban</h1>
+      <button class="btn btn-warning create-board">Add a board</button>
+      <div class="board-container"></div>
     </div>
 
     <script id="board-template" type="x-tmpl-mustache">
       <div id="{{ id }}" class="board">
-        <h2 class="column-title">{{ name }}</h2>
-        <button class="create-column">Add a column</button>
-        <div class="board-container"></div>
+        <h1 class="column-title">{{ name }}</h1>
+        <button class="btn btn-success create-column">Add a column</button>
+        <div class="column-container"></div>
       </div
     </script>
     <script id="card-template" type="x-tmpl-mustache">
       <div class="card">
         <p class="card-description">{{ description }}</p>
-        <button class="btn-delete">x</button>
+        <button class="btn btn-danger btn-delete">x</button>
       </div
     </script>
     <script id="column-template" type="x-tmpl-mustache">
@@ -32,8 +38,8 @@
           <h2 class="column-title">{{ name }}</h2>
           <ul id={{ id }} class="column-card-list"></ul>
           <div class="btn-container">
-            <button class="btn-delete">X</button>
-            <button class="add-card">Add a card</button>
+            <button class="btn btn-danger btn-delete">X</button>
+            <button class="btn btn-info add-card">Add a card</button>
           </div>
       </div>
     </script>

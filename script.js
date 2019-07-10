@@ -78,44 +78,81 @@ document.addEventListener("DOMContentLoaded", function() {
       this.element.parentNode.removeChild(this.element);
     }
   };
-
   //Board
-  var board = {
-    name: "Kanban Board",
-    addColumn: function(column) {
-      this.element.appendChild(column.element);
-      initSortable(column.id); //About this feature we will tell later
-    },
-    element: document.querySelector("#board .column-container")
-  };
-  function initSortable(id) {
-    console.log(id);
-    var el = document.getElementById(id);
-    console.log(el);
-    var sortable = Sortable.create(el, {
-      group: "kanban",
-      sort: true
+  function Board(name) {
+    var self = this;
+
+    this.id = randomString();
+    this.name = name;
+    this.element = generateTemplate("board-template", {
+      name: this.name,
+      id: this.id
     });
+
+    this.element
+      .querySelector(".board")
+      .addEventListener("click", function(event) {
+        if (event.target.classList.contains("btn-delete-board")) {
+          self.removeBoard();
+        }
+
+        if (event.target.classList.contains("create-column")) {
+          self.addColumn(new Column(prompt("Enter the name of the Column")));
+        }
+      });
   }
 
+  Board.prototype = {
+    addColumn: function(column) {
+      this.element
+        .querySelector(".column-container")
+        .appendChild(column.element);
+      this.initSortable(column.id);
+    },
+    removeBoard: function() {
+      this.element.parentNode.removeChild(this.element);
+    },
+    initSortable(id) {
+      var el = document.getElementById(id);
+      var sortable = Sortable.create(el, {
+        group: this.id,
+        sort: true
+      });
+    }
+  };
+
+  var main = {
+    name: "Kanban Board",
+    addBoard: function(board) {
+      this.element.appendChild(board.element);
+    },
+    element: document.querySelector("#main .board-container")
+  };
+
   document
-    .querySelector("#board .create-column")
+    .querySelector("#main .create-board")
     .addEventListener("click", function() {
-      var name = prompt("Enter a column name");
-      var column = new Column(name);
-      board.addColumn(column);
+      var name = prompt("Enter a Board name");
+      var board = new Board(name);
+      main.addBoard(board);
     });
 
   // RUN
+
+  // CREATING BOARD
+  var boardFirst = new Board("Board");
+
+  main.addBoard(boardFirst);
+
   // CREATING COLUMNS
   var todoColumn = new Column("To do");
   var doingColumn = new Column("Doing");
   var doneColumn = new Column("Done");
 
   // ADDING COLUMNS TO THE BOARD
-  board.addColumn(todoColumn);
-  board.addColumn(doingColumn);
-  board.addColumn(doneColumn);
+  boardFirst.addColumn(todoColumn);
+  boardFirst.addColumn(doingColumn);
+  boardFirst.addColumn(doneColumn);
 
   // CREATING CARDS
   var card1 = new Card("New task");

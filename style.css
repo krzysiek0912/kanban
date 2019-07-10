@@ -1,3 +1,14 @@
+#main {
+  padding: 30px;
+}
+
+.board-container > div {
+  margin: 30px 0;
+  padding: 30px;
+  border-bottom: 5px solid green;
+  border-top: 5px solid green;
+}
+
 .column-container {
   display: flex;
   flex-wrap: wrap;
@@ -30,6 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
   padding: 5px 30px;
   border: 1px solid gray;
 }
@@ -37,19 +49,8 @@
 .card p {
   margin: 0;
 }
-
-button {
-  height: 30px;
-}
-.btn-delete {
-  width: 30px;
-  height: 30px;
-  margin: 0;
-  padding: 0;
-}
-
-.add-card {
-  height: 30px;
+.create-column {
+  margin-bottom: 30px;
 }
 
 @media screen and (max-width: 966px) {
