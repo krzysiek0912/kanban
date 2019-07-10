@@ -49,9 +49,6 @@
 .card p {
   margin: 0;
 }
-.create-column {
-  margin-bottom: 30px;
-}
 
 @media screen and (max-width: 966px) {
   .column-container > div {

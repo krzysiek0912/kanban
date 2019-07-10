@@ -23,7 +23,10 @@
     <script id="board-template" type="x-tmpl-mustache">
       <div id="{{ id }}" class="board">
         <h1 class="column-title">{{ name }}</h1>
-        <button class="btn btn-success create-column">Add a column</button>
+        <div class="btn-container">
+          <button class="btn btn-success create-column">Add a column</button>
+          <button class="btn btn-danger btn-delete-board">Remove Board</button>
+        </div>
         <div class="column-container"></div>
       </div
     </script>
