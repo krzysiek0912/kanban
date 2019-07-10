@@ -10,8 +10,17 @@
     <div id="board" class="board">
       <h1>Kanban board</h1>
       <button class="create-column">Add a column</button>
+
       <div class="column-container"></div>
     </div>
+
+    <script id="board-template" type="x-tmpl-mustache">
+      <div id="{{ id }}" class="board">
+        <h2 class="column-title">{{ name }}</h2>
+        <button class="create-column">Add a column</button>
+        <div class="board-container"></div>
+      </div
+    </script>
     <script id="card-template" type="x-tmpl-mustache">
       <div class="card">
         <p class="card-description">{{ description }}</p>
@@ -22,8 +31,10 @@
       <div class="column">
           <h2 class="column-title">{{ name }}</h2>
           <ul id={{ id }} class="column-card-list"></ul>
-          <button class="btn-delete">X</button>
-          <button class="add-card">Add a card</button>
+          <div class="btn-container">
+            <button class="btn-delete">X</button>
+            <button class="add-card">Add a card</button>
+          </div>
       </div>
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>

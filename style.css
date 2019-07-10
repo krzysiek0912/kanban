@@ -1,0 +1,59 @@
+.column-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column-container > div {
+  width: 33%;
+  justify-content: stretch;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.column-card-list {
+  padding: 0;
+  list-style: none;
+  min-height: 30px;
+  display: block;
+  border: 1px solid gray;
+  padding: 5px 20px;
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 30px;
+  border: 1px solid gray;
+}
+
+.card p {
+  margin: 0;
+}
+
+button {
+  height: 30px;
+}
+.btn-delete {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.add-card {
+  height: 30px;
+}
+
+@media screen and (max-width: 966px) {
+  .column-container > div {
+    width: 100%;
+  }
+}
