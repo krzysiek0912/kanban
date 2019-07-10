@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     this.id = randomString();
     this.name = name;
-    this.element = generateTemplate("column-template", { name: this.name });
+    this.element = generateTemplate("column-template", {
+      name: this.name,
+      id: this.id
+    });
 
     this.element
       .querySelector(".column")
@@ -86,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function() {
     element: document.querySelector("#board .column-container")
   };
   function initSortable(id) {
+    console.log(id);
     var el = document.getElementById(id);
+    console.log(el);
     var sortable = Sortable.create(el, {
       group: "kanban",
       sort: true
