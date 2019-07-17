@@ -1,4 +1,3 @@
-//Board
 function Board(id, name) {
   var self = this;
 
@@ -31,9 +30,8 @@ function Board(id, name) {
             return resp.json();
           })
           .then(function(resp) {
-            console.log(resp);
             var column = new Column(resp.id, name);
-            board.addColumn(column);
+            self.addColumn(column);
           });
       }
     });
@@ -50,8 +48,33 @@ Board.prototype = {
   initSortable(id) {
     var el = document.getElementById(id);
     var sortable = Sortable.create(el, {
-      group: this.id,
-      sort: true
+      group: "Kanban",
+      sort: true,
+      onUnchoose: function(evt) {
+        var item = evt.item;
+        var elem = item.firstElementChild;
+        var to = evt.to;
+        var name = elem.children[0].innerText;
+        console.log(elem.children[0].innerText);
+        fetch(baseUrl + "/card/" + elem.id, {
+          method: "PUT",
+          headers: myHeaders,
+          body: JSON.stringify({
+            name: name,
+            bootcamp_kanban_column_id: to.id
+          })
+        })
+          .then(function(resp) {
+            // console.log(resp);
+            return resp.json();
+          })
+          .then(function(resp) {
+            console.log(resp);
+            // self.element.parentNode.removeChild(self.element);
+          });
+        // console.log(elem);
+        // console.log(item);
+      }
     });
   }
 };

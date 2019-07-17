@@ -1,15 +1,24 @@
-const prefix = "https://cors-anywhere.herokuapp.com/",
+let prefix = "https://cors-anywhere.herokuapp.com/",
   baseUrl = prefix + "https://kodilla.com/pl/bootcamp-api",
   myHeaders = {
     "X-Client-Id": "4281",
     "X-Auth-Token": "a28d7a17e38d45383e577c95369dc612"
   };
-
+var main = {
+  name: "Kanban Board",
+  addBoard: function(board) {
+    this.element.appendChild(board.element);
+  },
+  element: document.querySelector("#main .board-container")
+};
+let board = new Board(name);
+main.addBoard(board);
 fetch(baseUrl + "/board", { headers: myHeaders })
   .then(function(resp) {
     return resp.json();
   })
   .then(function(resp) {
+    console.log(resp);
     setupColumns(resp.columns);
   });
 
@@ -23,19 +32,11 @@ function generateTemplate(name, data, basicElement) {
   return element;
 }
 
-var main = {
-  name: "Kanban Board",
-  addBoard: function(board) {
-    this.element.appendChild(board.element);
-  },
-  element: document.querySelector("#main .board-container")
-};
-
 document
   .querySelector("#main .create-board")
   .addEventListener("click", function() {
     var name = prompt("Enter a Board name");
-    var board = new Board(name);
+    let board = new Board(name);
     main.addBoard(board);
   });
 

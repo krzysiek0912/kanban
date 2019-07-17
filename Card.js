@@ -9,7 +9,11 @@ function Card(id, name) {
 
   this.id = id;
   this.name = name || "No name given";
-  this.element = generateTemplate("card-template", { name: this.name }, "li");
+  this.element = generateTemplate(
+    "card-template",
+    { name: this.name, id: this.id },
+    "li"
+  );
   this.element
     .querySelector(".card")
     .addEventListener("click", function(event) {
@@ -17,6 +21,8 @@ function Card(id, name) {
 
       if (event.target.classList.contains("btn-delete")) {
         self.removeCard();
+      } else {
+        self.editCard();
       }
     });
 }
@@ -30,6 +36,28 @@ Card.prototype = {
       headers: myHeaders
     })
       .then(function(resp) {
+        return resp.json();
+      })
+      .then(function(resp) {
+        self.element.parentNode.removeChild(self.element);
+      });
+  },
+  editCard: function() {
+    var self = this;
+    console.log(this.id);
+    var cardName = prompt("Enter rename of the card");
+    event.preventDefault();
+
+    fetch(baseUrl + "/card/" + self.id, {
+      method: "PUT",
+      headers: myHeaders,
+      body: JSON.stringify({
+        name: cardName,
+        bootcamp_kanban_column_id: self.id
+      })
+    })
+      .then(function(resp) {
+        console.log(resp);
         return resp.json();
       })
       .then(function(resp) {

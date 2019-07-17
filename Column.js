@@ -1,4 +1,3 @@
-//Column
 function setupColumns(columns) {
   columns.forEach(function(column) {
     let col = new Column(column.id, column.name);
@@ -21,38 +20,13 @@ function Column(id, name) {
     .querySelector(".column")
     .addEventListener("click", function(event) {
       if (event.target.classList.contains("add-card")) {
-        var cardName = prompt("Enter the name of the card");
-        event.preventDefault();
-
-        fetch(baseUrl + "/card", {
-          method: "POST",
-          body: {
-            //body query
-          }
-        })
-          .then(function(res) {
-            return res.json();
-          })
-          .then(function() {
-            var data = new FormData();
-            data.append("name", cardName);
-            data.append("bootcamp_kanban_column_id", self.id);
-
-            fetch(baseUrl + "/card", {
-              method: "POST",
-              headers: myHeaders,
-              body: data
-            })
-              .then(function(res) {
-                return res.json();
-              })
-              .then(function(resp) {
-                var card = new Card(resp.id, cardName);
-                self.addCard(card);
-              });
-          });
-
-        self.addCard(new Card(cardName));
+        self.addColumn();
+      }
+      if (event.target.classList.contains("btn-delete")) {
+        self.removeColumn();
+      }
+      if (event.target.classList.contains("column-title")) {
+        self.editColumn();
       }
     });
 }
@@ -60,6 +34,56 @@ function Column(id, name) {
 Column.prototype = {
   addCard: function(card) {
     this.element.querySelector("ul").appendChild(card.element);
+  },
+  renameCard: function(card) {
+    this.element.querySelector("h2").innerHTML = card.name;
+  },
+  addColumn: function() {
+    var self = this;
+    var cardName = prompt("Enter the name of the card");
+    event.preventDefault();
+
+    var data = new FormData();
+    data.append("name", cardName);
+    data.append("bootcamp_kanban_column_id", self.id);
+
+    fetch(baseUrl + "/card", {
+      method: "POST",
+      headers: myHeaders,
+      body: data
+    })
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(resp) {
+        var card = new Card(resp.id, cardName);
+        self.addCard(card);
+      });
+  },
+  editColumn: function() {
+    var self = this;
+    var cardName = prompt("Enter rename of the Column");
+    event.preventDefault();
+
+    var data = new FormData();
+    data.append("name", cardName);
+    data.append("bootcamp_kanban_column_id", self.id);
+
+    fetch(baseUrl + "/column/" + self.id, {
+      method: "PUT",
+      headers: myHeaders,
+      body: JSON.stringify({
+        name: cardName,
+        bootcamp_kanban_column_id: self.id
+      })
+    })
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(resp) {
+        var card = new Card(resp.id, cardName);
+        self.renameCard(card);
+      });
   },
   removeColumn: function() {
     var self = this;
