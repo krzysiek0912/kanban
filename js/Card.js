@@ -46,6 +46,7 @@ Card.prototype = {
     var self = this;
     console.log(this.id);
     var cardName = prompt("Enter rename of the card");
+    // var id = parseInt();
     event.preventDefault();
 
     fetch(baseUrl + "/card/" + self.id, {
@@ -53,15 +54,15 @@ Card.prototype = {
       headers: myHeaders,
       body: JSON.stringify({
         name: cardName,
-        bootcamp_kanban_column_id: self.id
+        bootcamp_kanban_column_id: "" + self.id
       })
     })
       .then(function(resp) {
-        console.log(resp);
+        // console.log(resp);
         return resp.json();
       })
       .then(function(resp) {
-        self.element.parentNode.removeChild(self.element);
+        self.element.innerHTML = resp.name;
       });
   }
 };

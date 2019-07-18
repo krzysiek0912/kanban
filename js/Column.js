@@ -52,13 +52,13 @@ Column.prototype = {
       headers: myHeaders,
       body: data
     })
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(resp) {
-        var card = new Card(resp.id, cardName);
-        self.addCard(card);
-      });
+    .then(function(res) {
+    return res.json();
+    })
+    .then(function(resp) {
+    var card = new Card(resp.id, cardName);
+    self.addCard(card);
+    });
   },
   editColumn: function() {
     var self = this;
