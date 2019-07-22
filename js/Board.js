@@ -50,30 +50,24 @@ Board.prototype = {
     var sortable = Sortable.create(el, {
       group: "Kanban",
       sort: true,
-      onUnchoose: function(evt) {
-        var item = evt.item;
-        var elem = item.firstElementChild;
-        var to = evt.to;
-        var name = elem.children[0].innerText;
-        console.log(elem.children[0].innerText);
-        fetch(baseUrl + "/card/" + elem.id, {
+      onAdd: function(evt) {
+        let item = evt.item,
+          elem = item.querySelectorAll(".card")[0],
+          description = item.querySelectorAll(".card-description")[0],
+          id = elem.getAttribute("id"),
+          to = evt.target.getAttribute("id"),
+          name = description.innerText;
+
+        fetch(baseUrl + "/card/" + id, {
           method: "PUT",
           headers: myHeaders,
           body: JSON.stringify({
             name: name,
-            bootcamp_kanban_column_id: to.id
+            bootcamp_kanban_column_id: to
           })
-        })
-          .then(function(resp) {
-            // console.log(resp);
-            return resp.json();
-          })
-          .then(function(resp) {
-            console.log(resp);
-            // self.element.parentNode.removeChild(self.element);
-          });
-        // console.log(elem);
-        // console.log(item);
+        }).then(function(resp) {
+          return resp.json();
+        });
       }
     });
   }

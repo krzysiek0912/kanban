@@ -18,7 +18,7 @@ fetch(baseUrl + "/board", { headers: myHeaders })
     return resp.json();
   })
   .then(function(resp) {
-    console.log(resp);
+    // console.log(resp);
     setupColumns(resp.columns);
   });
 
