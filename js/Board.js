@@ -1,5 +1,5 @@
 function Board(id, name) {
-  var self = this;
+  const self = this;
 
   this.id = id;
   this.name = name;
@@ -11,28 +11,16 @@ function Board(id, name) {
   this.element
     .querySelector(".board")
     .addEventListener("click", function(event) {
-      if (event.target.classList.contains("btn-delete-board")) {
-        self.removeBoard();
-      }
-
       if (event.target.classList.contains("create-column")) {
-        var name = prompt("Enter a column name");
-        var data = new FormData();
+        let name = prompt("Enter a column name"),
+          data = new FormData();
 
         data.append("name", name);
 
-        fetch(baseUrl + "/column", {
-          method: "POST",
-          headers: myHeaders,
-          body: data
-        })
-          .then(function(resp) {
-            return resp.json();
-          })
-          .then(function(resp) {
-            var column = new Column(resp.id, name);
-            self.addColumn(column);
-          });
+        callApi("/column", "POST", data).then(function(resp) {
+          const column = new Column(resp.id, name);
+          self.addColumn(column);
+        });
       }
     });
 }
@@ -46,29 +34,26 @@ Board.prototype = {
     this.element.parentNode.removeChild(this.element);
   },
   initSortable(id) {
-    var el = document.getElementById(id);
-    var sortable = Sortable.create(el, {
-      group: "Kanban",
-      sort: true,
-      onAdd: function(evt) {
-        let item = evt.item,
-          elem = item.querySelectorAll(".card")[0],
-          description = item.querySelectorAll(".card-description")[0],
-          id = elem.getAttribute("id"),
-          to = evt.target.getAttribute("id"),
-          name = description.innerText;
+    const el = document.getElementById(id),
+      sortable = Sortable.create(el, {
+        group: "Kanban",
+        sort: true,
+        onAdd: function(evt) {
+          const item = evt.item,
+            elem = item.querySelector(".card"),
+            id = elem.getAttribute("id"),
+            url = "/card/" + id,
+            description = item.querySelector(".card-description"),
+            to = evt.target.getAttribute("id");
 
-        fetch(baseUrl + "/card/" + id, {
-          method: "PUT",
-          headers: myHeaders,
-          body: JSON.stringify({
-            name: name,
-            bootcamp_kanban_column_id: to
-          })
-        }).then(function(resp) {
-          return resp.json();
-        });
-      }
-    });
+          let name = description.innerText,
+            body = JSON.stringify({
+              name: name,
+              bootcamp_kanban_column_id: to
+            });
+
+          callApi(url, "PUT", body);
+        }
+      });
   }
 };

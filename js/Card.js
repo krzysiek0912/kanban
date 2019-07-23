@@ -1,11 +1,5 @@
-function setupCards(col, cards) {
-  cards.forEach(function(card) {
-    var cardObj = new Card(card.id, card.name);
-    col.addCard(cardObj);
-  });
-}
 function Card(id, name) {
-  var self = this;
+  const self = this;
 
   this.id = id;
   this.name = name || "No name given";
@@ -29,40 +23,27 @@ function Card(id, name) {
 
 Card.prototype = {
   removeCard: function() {
-    var self = this;
+    const self = this,
+      url = "/card/" + self.id;
 
-    fetch(baseUrl + "/card/" + self.id, {
-      method: "DELETE",
-      headers: myHeaders
-    })
-      .then(function(resp) {
-        return resp.json();
-      })
-      .then(function(resp) {
-        self.element.parentNode.removeChild(self.element);
-      });
+    callApi(url, "DELETE").then(function(resp) {
+      self.element.parentNode.removeChild(self.element);
+    });
   },
   editCard: function() {
-    let self = this,
-      cardName = prompt("Enter rename of the card"),
+    const self = this,
+      url = "/card/" + self.id;
+
+    let cardName = prompt("Enter rename of the card"),
       id = self.element.parentNode.getAttribute("id"),
-      description = self.element.querySelectorAll(".card-description")[0];
-
-    event.preventDefault();
-
-    fetch(baseUrl + "/card/" + self.id, {
-      method: "PUT",
-      headers: myHeaders,
-      body: JSON.stringify({
+      description = self.element.querySelector(".card-description"),
+      body = JSON.stringify({
         name: cardName,
         bootcamp_kanban_column_id: id
-      })
-    })
-      .then(function(resp) {
-        return resp.json();
-      })
-      .then(function(resp) {
-        description.innerHTML = cardName;
       });
+
+    callApi(url, "PUT", body).then(function(resp) {
+      description.innerHTML = cardName;
+    });
   }
 };

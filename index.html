@@ -16,7 +16,6 @@
   <body>
     <div id="main">
       <h1>Kanban</h1>
-      <button class="btn btn-warning create-board">Add a board</button>
       <div class="board-container"></div>
     </div>
 
@@ -25,8 +24,7 @@
         <h1 class="column-title">{{ name }}</h1>
         <div class="btn-container">
           <button class="btn btn-success create-column">Add a column</button>
-          <button class="btn btn-danger  btn-delete-board">Remove Board</button>
-        </div>
+          </div>
         <div class="column-container"></div>
       </div
     </script>
@@ -49,6 +47,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
 
+    <script type="text/javascript" src="js/Utils.js"></script>
     <script type="text/javascript" src="js/Column.js"></script>
     <script type="text/javascript" src="js/Card.js"></script>
     <script type="text/javascript" src="js/Board.js"></script>
